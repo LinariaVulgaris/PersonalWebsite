@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>柳穿鱼的个人网站</title>
+    <style>  
+        body {
+			margin: 0;
+			/* 添加背景图片 */
+			background-image: url('https://s41.ax1x.com/2026/02/03/pZ5rkB6.png');
+			
+			/* 让背景图片覆盖整个屏幕，不随页面滚动（固定背景） */
+			background-attachment: fixed;
+			
+			/* 确保图片自动缩放以填满屏幕，同时保持比例 */
+			background-size: cover;
+			
+			/* 背景图居中显示 */
+			background-position: center 40%;
+			
+			/* 防止图片过小导致的平铺重复 */
+			background-repeat: no-repeat;
+		}
+		@keyframes gradientFlip {
+			0% {
+				background-position: 0% 50%; /* 初始：绿在左，紫在右 */
+			}
+			50% {
+				background-position: 100% 50%; /* 中间：紫移到左边，绿移到右边 */
+			}
+			100% {
+				background-position: 0% 50%; /* 回归：绿又回到左边 */
+			}
+		}
+		@keyframes glowPulse {  /* 1. 定义平滑的呼吸/缩放动画 */
+			0% { 
+				filter: blur(10px); 
+				opacity: 0.8; 
+				transform: scale(1); 
+				box-shadow: 0 0 20px #ff9d00; /* 增加内发光感 */
+			}
+			50% { 
+				filter: blur(20px); 
+				opacity: 1; 
+				transform: scale(1.15);
+				box-shadow: 0 0 40px #ffcc00; /* 扩展光影范围 */ 
+			}
+			100% { 
+				filter: blur(10px); 
+				opacity: 0.8; 
+				transform: scale(1); 
+				box-shadow: 0 0 20px #ff9d00;
+			}
+		}
+		/* 2. 背景装饰 */
+		.avatar-wrapper {
+			position: relative;
+			display: inline-block;
+			z-index: 1;
+		}
+
+		.avatar-wrapper::before {
+			content: "";
+			position: absolute;
+			/* 调整外扩范围，数值越大光晕越宽 */
+			top: -3px; left: -3px; right: -3px; bottom: -3px;
+			
+			background: radial-gradient(circle, #fff 0%, #ffd700 40%, #ff4500 100%);
+			
+			border-radius: 50%;
+			z-index: -1;
+			
+			/* 使用呼吸动画，如果想让它静止，可以直接删除下面这行 */
+			animation: glowPulse 4s ease-in-out infinite;
+		}
+
+		.larger-text {
+			font-family: 'Stick', serif;
+			font-size: 40px;
+			font-weight: bold;
+			line-height: 1.5; /* 确保高度充足，不被切断 */
+			display: inline-block;
+			
+			/* 设置渐变：绿 -> 紫 -> 绿 */
+			/* 这样排列是为了在动画移动时，看起来像是在两个颜色间平滑反转 */
+			background: linear-gradient(
+				70deg, 
+				rgb(255, 167, 69),
+				rgb(254, 134, 159),
+				rgb(239, 122, 200),
+				rgb(160, 131, 237),
+				rgb(67, 174, 255),
+				rgb(160, 131, 237),
+				rgb(239, 122, 200),
+				rgb(254, 134, 159),
+				rgb(255, 167, 69)
+			);
+			background-size: 200% 100%; /* 宽度设为200%，这样我们可以左右滑动它 */
+			-webkit-background-clip: text; 
+			background-clip: text;
+			color: transparent;
+			/* 绑定动画：这里时间可以调慢一点，更有呼吸感 */
+			animation: gradientFlip 8s ease-in-out infinite;
+
+		}
+		.large-text {
+			font-family: "Times New Roman", Times, serif;
+			font-size: 27px;
+			color: #B03060;
+			text-shadow: 0.5px 0.5px 1px rgba(255, 255, 255, 0.8);
+			font-weight: 500;
+		}
+		p {
+			line-height: 24px;
+		}
+		.medium-text {
+			line-height: 65px;
+			font-size: 20px;
+			margin: 5px 0;
+		}
+		.container {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr); 
+			gap: 35px; /* 列间距 */
+			justify-items: center; /* 关键：让子元素在单元格内水平居中 */
+    		padding: 0 50px; /* 可选：给左右留一点边距防止贴边 */
+		}
+		.item {
+            width: 450px;
+            height: 465px;
+            background-color: #75ffdfe5;
+            border-radius: 40px;
+			margin: 15px auto;
+			text-align: center;
+			padding: 20px; /* 增加内边距 */
+    		box-sizing: border-box; /* 确保 padding 不撑大盒子 */
+			background-color: rgba(255, 255, 255, 0.4); /* 半透明白色 */
+			backdrop-filter: blur(10px);              /* 关键：背景模糊，非常有高级感 */
+			-webkit-backdrop-filter: blur(10px);
+			border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+		.list-content {
+			display: inline-block; /* 关键：让容器宽度等于内容宽度 */
+			text-align: left;      /* 关键：让内部文字左对齐 */
+			vertical-align: top;
+			margin-top: 10px;
+		}
+		.footer-container {
+			/* 采用亮色渐变，上方透明，下方微白，实现与背景的自然过渡 */
+			background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.7)); 
+			backdrop-filter: blur(8px); /* 磨砂效果，让黑色文字更清晰 */
+			-webkit-backdrop-filter: blur(8px);
+			text-align: center;
+			padding: 30px 20px;
+			margin-top: 30px; /* 与上方内容拉开距离 */
+		}
+
+		.footer-container p {
+			color: #333; /* 使用深灰色而非纯黑，视觉更高级 */
+			font-size: 14px;
+			margin: 8px 0;
+		}
+
+		.footer-link {
+			font-size: 18px;
+			display: inline-block;
+			color: #4ef3e0ff;
+			text-decoration: none;
+			font-weight: bold;
+			margin-bottom: 7px;
+			border-bottom: 1px solid transparent;
+			transition: all 0.3s;
+		}
+
+		.footer-link:hover {
+			color: #1afab7ff;
+			border-bottom: 1px solid #1afab7ff;
+		}
+		.footer-info {
+			display: flex;          /* 开启弹性布局 */
+			justify-content: center; /* 水平居中 */
+			gap: 40px;              /* 邮箱和Github之间的间距 */
+			margin-top: 10px;
+		}
+		.footer-info p, .footer-info a {
+			font-size: 18px;
+			color: #333;
+			text-decoration: none;
+		}
+
+		.footer-info a:hover {
+			font-size: 18px;
+			color: #1afab7ff;
+			text-decoration: underline;
+		}
+
+		.copyright {
+			opacity: 0.6; /* 让版权信息显得低调一点 */
+			font-size: 15px !important;
+		}
+
+    </style>
+  </head>
+  <body>
+	<canvas id="particleCanvas" style="position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none;"></canvas>
+    <div style="
+		background: linear-gradient(to bottom, #ff99008e, #ffffff03);
+		display: flex;          
+    	flex-direction: column;
+		align-items: center;
+		padding: 30px;
+	">
+    	<div class="avatar-wrapper">
+			<img src='https://s41.ax1x.com/2026/02/02/pZ4H0eS.png' alt="柳穿鱼" width="80px" height="80px" style="border-radius: 50%;">
+		</div>
+		<p class="larger-text" style="margin: 20px 0;">柳穿鱼</p>
+		<p class="large-text" style="margin-top: -5px;">Linaria Vulgaris</p>
+    </div>
+	<div class="container">
+        <div class="item">
+			<p style="font-size: 25px;"><b>高 中 时 期</b></p>
+			<div class="list-content">
+				<p class="medium-text"><b>·</b> 县级三好学生</p>
+				<p class="medium-text"><b>·</b> 沛县优秀共青团员</p>
+				<p class="medium-text"><b>·</b> 徐州市级三好生</p>
+				<p class="medium-text"><b>·</b> 第38届化学奥林匹克竞赛(江苏赛区)二等奖</p>
+			</div>
+		</div>
+        <div class="item">
+			<p style="font-size: 25px;"><b>大 学 时 期</b></p>
+			<div class="list-content">
+				<p class="medium-text"><b>·</b> 本科阶段: 南京大学</p>
+				<p class="medium-text">未完待续...😎(To be continued)</p>
+			</div>
+		</div>
+    </div>
+	<div class="footer-container">
+    <a href="https://mcntctyutdsu.feishu.cn/wiki/A3Cfw5ddniZSRsk4qu0cW9Shnag" class="footer-link">以上信息证明材料 (已设密码)</a>
+    
+    <div class="footer-info">
+        <p>邮箱: <a href="mailto:liuchuanyu666@163.com">liuchuanyu666@163.com</a></p>
+        <p><a href="https://github.com/LinariaVulgaris" target="_blank">GitHub 主页</a></p>
+    </div>
+    
+    <hr style="width: 50px; border: 0.5px solid rgba(0,0,0,0.1); margin: 15px auto;">
+    
+    <p class="copyright">柳穿鱼的个人网站 (建站日期: 2026/2/2)</p>
+</div>
+	<script>
+	const canvas = document.getElementById('particleCanvas');
+	const ctx = canvas.getContext('2d');
+
+	let particles = [];
+	const particleCount = 60; // 粒子数量
+
+	function resize() {
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+	}
+
+	window.addEventListener('resize', resize);
+	resize();
+
+	class Particle {
+		constructor() {
+			this.reset();
+		}
+		reset() {
+			this.x = Math.random() * canvas.width;
+			this.y = Math.random() * canvas.height;
+			this.size = Math.random() * 2 + 1;
+			this.speedX = Math.random() * 0.5 - 0.25;
+			this.speedY = Math.random() * 0.5 - 0.25;
+			this.opacity = Math.random() * 0.5 + 0.1;
+		}
+		update() {
+			this.x += this.speedX;
+			this.y += this.speedY;
+			if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+				this.reset();
+			}
+		}
+		draw() {
+			ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity + 0.2})`; // 使用你喜欢的青色
+			ctx.beginPath();
+			ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+			ctx.fill();
+		}
+	}
+
+	function init() {
+		for (let i = 0; i < particleCount; i++) {
+			particles.push(new Particle());
+		}
+	}
+
+	function animate() {
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		particles.forEach(p => {
+			p.update();
+			p.draw();
+		});
+		requestAnimationFrame(animate);
+	}
+
+	init();
+	animate();
+	</script>
+  </body>
+</html>

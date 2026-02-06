@@ -2,24 +2,21 @@
 <html lang="zh-CN">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>柳穿鱼的个人网站</title>
 	<link rel="icon" href="https://s41.ax1x.com/2026/02/02/pZ4H0eS.png" type="image/png">
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700;900&display=swap" rel="stylesheet">
     <style>  
         body {
 			margin: 0;
 			/* 添加背景图片 */
 			background-image: url('https://s41.ax1x.com/2026/02/03/pZ5rkB6.png');
-			
 			/* 让背景图片覆盖整个屏幕，不随页面滚动（固定背景） */
 			background-attachment: fixed;
-			
 			/* 确保图片自动缩放以填满屏幕，同时保持比例 */
 			background-size: cover;
-			
 			/* 背景图居中显示 */
 			background-position: center 40%;
-			
 			/* 防止图片过小导致的平铺重复 */
 			background-repeat: no-repeat;
 		}
@@ -60,7 +57,6 @@
 			display: inline-block;
 			z-index: 1;
 		}
-
 		.avatar-wrapper::before {
 			content: "";
 			position: absolute;
@@ -75,9 +71,8 @@
 			/* 使用呼吸动画，如果想让它静止，可以直接删除下面这行 */
 			animation: glowPulse 4s ease-in-out infinite;
 		}
-
 		.larger-text {
-			font-family: 'Stick', serif;
+			font-family: 'Noto Serif SC', serif;
 			font-size: 40px;
 			font-weight: bold;
 			line-height: 1.5; /* 确保高度充足，不被切断 */
@@ -128,8 +123,9 @@
     		padding: 0 50px; /* 可选：给左右留一点边距防止贴边 */
 		}
 		.item {
-            width: 450px;
-            height: 465px;
+            width: 90%;          /* 默认占据父容器的 90% */
+    		max-width: 450px;    /* 但最大不超过 450px */
+            height: 456px;
             background-color: #75ffdfe5;
             border-radius: 40px;
 			margin: 15px auto;
@@ -189,7 +185,6 @@
 			color: #333;
 			text-decoration: none;
 		}
-
 		.footer-info a:hover {
 			font-size: 18px;
 			color: #1afab7ff;
@@ -200,7 +195,104 @@
 			opacity: 0.6; /* 让版权信息显得低调一点 */
 			font-size: 15px !important;
 		}
+		.larger-text, .large-text, .medium-text, .item b {
+			white-space: nowrap !important;
+		}
 
+		/* --- 电脑端：锁定两列布局 --- */
+		@media (min-width: 851px) {
+			body {
+				min-width: 1100px; /* 这里的数值要略大于两列卡片的总和 */
+				overflow-x: auto;  /* 放大时出现横向滚动条 */
+			}
+			.container {
+				display: grid;
+				grid-template-columns: 450px 450px; /* 强制两列固定宽度 */
+				width: 1000px;
+				margin: 0 auto;
+				gap: 9vw;
+        		justify-content: center; /* 确保两个块整体在页面居中 */
+			}
+			.item {
+				width: 450px !important; /* 卡片宽度锁死 */
+			}
+			.pc-text {
+				line-height: 65px;
+				font-size: 20px;
+				margin: 5px 0;
+			}
+			.mobile-text {
+				display: none;
+			}
+		}
+		/* 针对屏幕宽度小于 850px 的设备（手机和平板） */
+		@media (max-width: 850px) {
+			body {
+				width: 100%;
+				min-width: auto; 
+				overflow-x: hidden;
+				margin: 0;
+				padding: 0;
+			}
+			/* 1. 让两列布局变成单列布局 */
+			.container {
+				display: flex;
+				flex-direction: column;
+				align-items: center;   /* 确保卡片在手机屏幕水平居中 */
+				width: 100%;
+				padding: 0 10px;            /* 缩小左右边距 */
+				gap: 20px;                  /* 缩小间距 */
+				box-sizing: border-box;
+			}
+
+			/* 2. 让卡片宽度自适应，不再固定 450px */
+			.item {
+				width: 95%;       /* 占据屏幕可用宽度的全部 */
+				max-width: 450px;  
+				height: auto;      /* 高度改为自动，防止文字被溢出 */
+				min-height: 350px; /* 设置一个最小高度保持美观 */
+				margin: 10px 0;
+				box-sizing: border-box; /* 极其重要：防止 padding 撑开宽度 */
+			}
+			.list-content {
+				/* 关键修改： */
+				display: block;      /* 改为 block 方便控制边距 */
+				text-align: left;    /* 内容本身左对齐 */
+				width: 85%;  /* 宽度根据文字长度自适应 */
+				
+				/* 这里的 margin 控制位置：
+				第一个 0 是上下边距，
+				第二个 auto 配合左边距实现整体位置微调 */
+				margin: 0 auto 0 4%; 
+				position: relative;
+			}
+			.larger-text {
+				font-size: 35px;
+				font-family: 'Noto Serif SC', serif;
+			}
+			.large-text {
+				font-size: 24px;
+				white-space: nowrap;
+			}
+			.medium-text {
+				font-size: 15px;      /* 手机端文字缩小一点 */
+				line-height: 2.2;
+				margin: 10px 0;       /* 调整每行之间的外边距，防止贴得太紧 */ 
+			}
+			.pc-text {
+				display: none; /* 手机端隐藏电脑文字 */
+			}
+			.mobile-text {
+				font-size: 15px;      /* 手机端文字缩小一点 */
+				line-height: 2.2;
+				margin: 10px 0;       /* 调整每行之间的外边距，防止贴得太紧 */ 
+			}
+			/* 4. 底部联系方式在手机上改为上下排列 */
+			.footer-info {
+				flex-direction: column; 
+				gap: 10px;
+			}
+		}
     </style>
   </head>
   <body>
@@ -225,14 +317,17 @@
 				<p class="medium-text"><b>·</b> 县级三好学生</p>
 				<p class="medium-text"><b>·</b> 沛县优秀共青团员</p>
 				<p class="medium-text"><b>·</b> 徐州市级三好生</p>
-				<p class="medium-text"><b>·</b> 第38届化学奥林匹克竞赛(江苏赛区)二等奖</p>
+				<p class="medium-text pc-text"><b>·</b> 第38届化学奥林匹克竞赛(江苏赛区)二等奖</p>
+				<p class="medium-text mobile-text"><b>·</b> 第38届化学奥林匹克竞赛(江苏赛区)</p>
+				<p class="medium-text mobile-text">&nbsp;&nbsp;&nbsp;二等奖</p>
 			</div>
 		</div>
         <div class="item">
 			<p style="font-size: 25px;"><b>大 学 时 期</b></p>
 			<div class="list-content">
 				<p class="medium-text"><b>·</b> 本科阶段: 南京大学</p>
-				<p class="medium-text">未完待续...😎(To be continued)</p>
+				<p class="medium-text pc-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;未完待续...😎(To be continued)</p>
+				<p class="medium-text mobile-text">&nbsp;&nbsp;&nbsp;未完待续...😎(To be continued)</p>
 			</div>
 		</div>
     </div>
@@ -304,7 +399,6 @@
 		});
 		requestAnimationFrame(animate);
 	}
-
 	init();
 	animate();
 	</script>
